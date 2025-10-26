@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres_firman:
+    container_name: postgres_zaki
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "22132:5432"   # 22XXX -> 22132
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - postgres_network
+
+  pgadmin_firman:
+    container_name: pgadmin_zaki
+    image: dpage/pgadmin4:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "44132:80"     # 44XXX -> 44132
+    depends_on:
+      - postgres_zaki
+    networks:
+      - postgres_network
+
+networks:
+  postgres_network:
+
+volumes:
+  postgres_data:
